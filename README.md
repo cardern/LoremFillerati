@@ -1,7 +1,5 @@
 # Sublime Text 2 plugin: Fillerati
-
-This plugin fetches random text from [Fillerati service](http://www.fillerati.com) and pastes the result in the view.
+An alternative to Lorem Ipsum, using classic literature and inspired by Michael's project [here](http://www.fillerati.com). Created for use with Sublime Text 3.
 
 ## Install
-
-Clone this repository as Fillerati into your Packages directory.
+Download and unzip in your Packages directory, or find via Package Control.
