@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 import threading
-import urllib2
+import urllib.request, urllib.error
 import json
 import random
 
@@ -50,7 +50,7 @@ class FilleratiCommand(sublime_plugin.TextCommand):
         for region in self.view.sel():
             # If no book in param, choose random one.
             if b is None:
-                book = random.choice(books.keys())
+                book = random.choice(list(books))
             else:
                 book = b
             # Random paragraph.
@@ -94,19 +94,18 @@ class FilleratiApiCall(threading.Thread):
 
         # Do request and save in "result" field.
         try:
-            request = urllib2.Request(self.url)
-            http_file = urllib2.urlopen(request)
+            http_file = urllib.request.urlopen(self.url)
             response_raw = http_file.read()
 
-            response_obj = json.loads(response_raw)
+            response_obj = json.loads(response_raw.decode())
             self.result = response_obj
             return
 
         # Save error, notify api call has failed.
-        except (urllib2.HTTPError) as (e):
+        except urllib.error.HTTPError as e:
             err = '%s: HTTP error %s contacting API' % (__name__, str(e.code))
             self.exception = e
-        except (urllib2.URLError) as (e):
+        except urllib.error.URLError as e:
             err = '%s: URL error %s contacting API' % (__name__, str(e.reason))
             self.exception = e
 
